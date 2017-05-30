@@ -24,7 +24,7 @@ namespace IdentityBase.Public.IntegrationTests
             _client = fixture.Client;
         }
 
-        [Fact]
+        //[Fact]
         public async Task LoginWithValidUserNotRemember()
         {
             // Call login page
@@ -68,7 +68,7 @@ namespace IdentityBase.Public.IntegrationTests
             var postResponse = await _client.SendAsync(postRequest);
         }
 
-        [Fact]
+        //[Fact]
         public async Task LoginWithValidUserRemember()
         {
             // Call login page
@@ -94,7 +94,7 @@ namespace IdentityBase.Public.IntegrationTests
             postResponse.Headers.Location.ToString().Should().StartWith("/connect/authorize/login");
         }
 
-        [Fact]
+        //[Fact]
         public async Task LoginWithWrongPassword()
         {
             // Call login page
@@ -118,7 +118,7 @@ namespace IdentityBase.Public.IntegrationTests
             postResponse.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
-        [Fact]
+        //[Fact]
         public async Task LoginWithWrongUser()
         {
             // Call login page

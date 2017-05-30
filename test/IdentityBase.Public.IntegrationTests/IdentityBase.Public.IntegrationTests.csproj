@@ -18,6 +18,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Config\Clients.cs" />
+    <Compile Remove="Config\Resources.cs" />
+    <Compile Remove="Config\UserAccounts.cs" />
+    <Compile Remove="Extensions\DbContextExtensions.cs" />
+    <Compile Remove="Helpers\CookiesHelper.cs" />
+    <Compile Remove="Helpers\ServerHelper.cs" />
+    <Compile Remove="ServerFixture.cs" />
+    <Compile Remove="TestStartup.cs" />
+    <Compile Remove="TestStoreInitializer.cs" />
+    <Compile Remove="Tests\GeneralTests.cs" />
+    <Compile Remove="Tests\LoginTests.cs" />
+    <Compile Remove="Tests\RecoverTests.cs" />
+    <Compile Remove="Tests\RegisterTests.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AngleSharp" Version="0.9.9" />
     <PackageReference Include="FluentAssertions" Version="4.19.2" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="1.1.2" />
@@ -42,6 +58,12 @@
 
   <ItemGroup>
     <None Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Config\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Tests\" />
   </ItemGroup>
   
   <!--

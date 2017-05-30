@@ -6,6 +6,7 @@ using System.IO;
 
 namespace IdentityBase.Public.IntegrationTests
 {
+    [Obsolete]
     public static class ServerHelper
     {
         public static TestServer CreateServer(Action<IServiceCollection> configureServices = null)

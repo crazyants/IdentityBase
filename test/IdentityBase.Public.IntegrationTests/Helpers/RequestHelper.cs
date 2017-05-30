@@ -5,6 +5,7 @@ using System.Net.Http;
 
 namespace IdentityBase.Public.IntegrationTests
 {
+    [Obsolete]
     public static class RequestHelper
     {
         public static HttpRequestMessage CreatePostRequest(String path, Dictionary<string, string> formPostBodyData)

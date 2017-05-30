@@ -23,7 +23,7 @@ namespace IdentityBase.Public.IntegrationTests
 
         #region Invalid input
 
-        [Fact]
+        //[Fact]
         public async Task RegisterWithInvalidPassword()
         {
             var server = ServerHelper.CreateServer((services) =>
@@ -66,7 +66,7 @@ namespace IdentityBase.Public.IntegrationTests
             // doc = (new HtmlParser().Parse(postResponse.Content.ReadAsStringAsync().Result));
         }
 
-        [Fact]
+        //[Fact]
         public async Task RegisterWithInvalidEmail()
         {
             var server = ServerHelper.CreateServer((services) =>
@@ -116,7 +116,7 @@ namespace IdentityBase.Public.IntegrationTests
         /// Try to register with a email that is already registered and confirmed
         /// </summary>
         /// <returns></returns>
-        [Fact]
+        //[Fact]
         public async Task RegisterWithExistingActiveAccount()
         {
             var server = ServerHelper.CreateServer((services) =>
@@ -158,7 +158,7 @@ namespace IdentityBase.Public.IntegrationTests
             postResponse.Headers.Location.Should().BeNull();
         }
 
-        [Fact]
+        //[Fact]
         public async Task RegisterWithDisabledAccount()
         {
             var server = ServerHelper.CreateServer((services) =>
@@ -200,7 +200,7 @@ namespace IdentityBase.Public.IntegrationTests
             postResponse.Headers.Location.Should().BeNull();
         }
 
-        [Fact]
+        //[Fact]
         public async Task RegisterWithUnconfirmedAccount()
         {
             var server = ServerHelper.CreateServer((services) =>
@@ -250,7 +250,7 @@ namespace IdentityBase.Public.IntegrationTests
         /// Register valid user, confirm the email, login after confirmation automatically
         /// </summary>
         /// <returns></returns>
-        [Fact]
+        //[Fact]
         public async Task RegisterValidUser_ConfirmLink_LoginAfterConfirmation()
         {
             var emailServiceMock = new Mock<IEmailService>();
@@ -312,7 +312,7 @@ namespace IdentityBase.Public.IntegrationTests
         /// Register valid user, confirm the mail, get redirected to login page
         /// </summary>
         /// <returns></returns>
-        [Fact]
+        //[Fact]
         public async Task RegisterValidUser_ConfirmLink_RedirectToLoginPageAfterConfirmation()
         {
             var emailServiceMock = new Mock<IEmailService>();
@@ -375,7 +375,7 @@ namespace IdentityBase.Public.IntegrationTests
         /// confirm the mail and stay authenticated,
         /// </summary>
         /// <returns></returns>
-        [Fact]
+        //[Fact]
         public async Task RegisterValidUser_LoginAfterRegistration_ConfirmLink()
         {
             var emailServiceMock = new Mock<IEmailService>();
@@ -438,7 +438,7 @@ namespace IdentityBase.Public.IntegrationTests
         /// IdSrv will not send any confirmation mails
         /// </summary>
         /// <returns></returns>
-        [Fact]
+        //[Fact]
         public async Task RegisterValidUser_LoginAfterRegistration_NoConfirmMail()
         {
             var emailServiceMock = new Mock<IEmailService>();
@@ -489,7 +489,7 @@ namespace IdentityBase.Public.IntegrationTests
         /// Register valid user, cancel the mail, get redirected to login page
         /// </summary>
         /// <returns></returns>
-        [Fact]
+        //[Fact]
         public async Task RegisterValidUser_CancelLink()
         {
             var emailServiceMock = new Mock<IEmailService>();
@@ -549,7 +549,7 @@ namespace IdentityBase.Public.IntegrationTests
 
         #endregion Valid input, successfull registration
 
-        [Fact]
+        //[Fact]
         public async Task RegisterUserWhichHasAlreadyAExternalAccount_MergeAccountsAutomatically()
         {
             var emailServiceMock = new Mock<IEmailService>();
@@ -608,12 +608,12 @@ namespace IdentityBase.Public.IntegrationTests
             postResponse.Headers.Location.ToString().Should().StartWith("/register/success");
         }
 
-        /*[Fact]
+        /*//[Fact]
         public async Task RegisterUserWhichHasAlreadyAExternalAccount_AskIfMerge_Merge()
         {
         }
 
-        [Fact]
+        //[Fact]
         public async Task RegisterWithExistingInactiveNotConfirmedAccount()
         {
             var server = ServerHelper.CreateServer((services) =>

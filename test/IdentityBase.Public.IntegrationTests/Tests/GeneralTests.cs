@@ -23,7 +23,7 @@ namespace IdentityBase.Public.IntegrationTests
             _client = _server.CreateClient();
         }
 
-        [Fact]
+        //[Fact]
         public async Task GetIndex()
         {
             // Act
