@@ -1,45 +1,100 @@
-namespace IdentityBase.Extensions
+// Copyright (c) Russlan Akiev. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+
+namespace IdentityBase
 {
-    using IdentityBase.Services;
+    using System;
+    using System.Net.Http;
+    using IdentityBase.Extensions;
     using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
 
-    public static class IApplicationBuilderExtensions
+    /// <summary>
+    /// <see cref="IApplicationBuilder"/> extension methods.
+    /// </summary>
+    public static partial class IApplicationBuilderExtensions
     {
-        public static IApplicationBuilder InitializeStores(
-            this IApplicationBuilder app)
+        public static void AddEmbeddedWebApi(
+            this IApplicationBuilder appBuilder,
+            Func<HttpMessageHandler> messageHandlerFactory = null)
         {
-            using (IServiceScope serviceScope = app.ApplicationServices
-                .GetRequiredService<IServiceScopeFactory>().CreateScope())
-            {
-                IStoreInitializer initializer = serviceScope.ServiceProvider
-                    .GetService<IStoreInitializer>();
-
-                if (initializer != null)
-                {
-                    initializer.InitializeStores();
-                }
-            }
-
-            return app;
+            appBuilder.AddEmbedded(
+                "/api",
+                "IdentityBase.WebApi.Startup, IdentityBase.WebApi",
+                messageHandlerFactory);
         }
 
-        public static IApplicationBuilder CleanupStores(
-            this IApplicationBuilder app)
+        public static void AddEmbeddedAdmin(
+            this IApplicationBuilder appBuilder,
+            Func<HttpMessageHandler> messageHandlerFactory = null)
         {
-            using (IServiceScope serviceScope = app.ApplicationServices
-                .GetRequiredService<IServiceScopeFactory>().CreateScope())
-            {
-                IStoreInitializer initializer = serviceScope.ServiceProvider
-                    .GetService<IStoreInitializer>();
+            appBuilder.AddEmbedded(
+                "/admin",
+                "IdentityBase.Admin.Startup, IdentityBase.Admin",
+                messageHandlerFactory);
+        }
 
-                if (initializer != null)
+        public static void AddEmbedded(
+            this IApplicationBuilder appBuilder,
+            PathString path,
+            string startupTypeName,
+            Func<HttpMessageHandler> messageHandlerFactory = null)
+        {
+            IConfiguration config = appBuilder.ApplicationServices
+                .GetRequiredService<IConfiguration>();
+
+            IHostingEnvironment environment = appBuilder.ApplicationServices
+                .GetRequiredService<IHostingEnvironment>();
+
+            ILoggerFactory loggerFactory = appBuilder.ApplicationServices
+                .GetRequiredService<ILoggerFactory>();
+
+            IStartup startup = CreateStartupInstance(
+                startupTypeName,
+                config,
+                environment,
+                loggerFactory,
+                messageHandlerFactory);
+
+            appBuilder.MapStartup(
+                path,
+                environment,
+                config,
+                (services) =>
                 {
-                    initializer.CleanupStores();
-                }
+                    startup.ConfigureServices(services);
+                },
+                (app) =>
+                {
+                    startup.Configure(app);
+                });
+        }
+
+        private static IStartup CreateStartupInstance(
+            string startupTypeName,
+           IConfiguration configuration,
+           IHostingEnvironment environment,
+           ILoggerFactory loggerFactory,
+           Func<HttpMessageHandler> messageHandlerFactory = null)
+        {
+            Type type = Type.GetType(startupTypeName);
+
+            if (type == null)
+            {
+                throw new ArgumentNullException(
+                    "Cannot load " + startupTypeName);
             }
 
-            return app;
+            return (IStartup)Activator.CreateInstance(
+                type,
+                configuration,
+                environment,
+                loggerFactory,
+                messageHandlerFactory);
         }
     }
 }
